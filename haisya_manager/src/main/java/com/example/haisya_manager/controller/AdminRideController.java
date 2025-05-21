@@ -81,7 +81,10 @@ public class AdminRideController {
 	{
 		Optional<Ride> optionalRide = rideService.findRideById(rideId);
 		
-		// 実際に配車を行う保護者の名前をリストとして受け取り、ビューに渡す
+		// 指定した運転手をリストで受け取り、ビューに渡す
+		List<Driver> drivers = rideService.findDriversIdsByRideId(rideId);
+		
+		// 実際に配車乗車する保護者の名前をリストとして受け取り、ビューに渡す
 		List<RideMemberEntry> rideMemberEntries = rideService.findMemberIdsByRideId(rideId);
 		
 		// 実際に配車される車に乗る子供の名前をリストとして受け取り、ビューに渡す
@@ -100,6 +103,7 @@ public class AdminRideController {
 			return "redirect:/admin/rides";
 		}
 		
+		model.addAttribute("drivers", drivers);
 		model.addAttribute("rideChildEntries", rideChildEntries);
 		model.addAttribute("rideMemberEntries", rideMemberEntries);
 		model.addAttribute("ride", ride);

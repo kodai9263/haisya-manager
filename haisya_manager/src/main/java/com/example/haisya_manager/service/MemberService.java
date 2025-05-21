@@ -69,7 +69,6 @@ public class MemberService {
 			if (childName != null && !childName.isEmpty()) {
 				Child child = new Child();
 				child.setName(childName);
-				child.setAdmin(userDetailsImpl.getAdmin());
 				child.setMember(member);
 				childRepository.save(child);
 			}
@@ -102,7 +101,6 @@ public class MemberService {
 			if (childName != null && !childName.isEmpty()) {
 				Child child = new Child();
 				child.setName(childName);
-				child.setAdmin(userDtailsImpl.getAdmin());
 				child.setMember(member);
 				childRepository.save(child);
 			}

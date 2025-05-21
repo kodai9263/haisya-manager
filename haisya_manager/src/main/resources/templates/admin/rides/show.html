@@ -20,21 +20,26 @@
         <h1>配車詳細</h1>
 
         <div class="mb-3">
-          <label>日付</label>
           <p th:text="${ride.date}" class="form-control-plaintext"></p>
         </div>
         
         <div class="mb-3">
-          <label>行き先</label>
           <p th:text="${ride.destination}" class="form-control-plaintext"></p>
         </div>
 
-        <!-- シンプルな横並びの車両表示 -->
         <div class="cars-container">
-          <div class="car-card" th:each="memberEntry : ${rideMemberEntries}">
-            <!-- 保護者名を表示するヘッダー -->
-            <div class="car-header" th:text="${memberEntry.getMember().getName() + '号'}"></div>
-            <div class="car-body">
+          <div class="car-card" th:each="driver : ${drivers}">
+            <div class="car-header mb-3" th:text="${driver.getMember().getName() + '号'}"></div>
+          </div>
+        </div> 
+
+        <div class="cars-container">
+          <div class="car-card" th:each="rideMemberEntry : ${rideMemberEntries}">
+            <div class="car-header mb-3" th:text="${rideMemberEntry.getMember().getName() + 'さん'}"></div>
+          </div>
+        </div> 
+
+              
               <!-- 
                 各保護者に対応する子供を表示
                 ・th:each="childEntry : ${rideChildEntries}" - 全ての子供エントリーをループ
@@ -42,17 +47,14 @@
                   → 子供(childEntry)に関連付けられた保護者(rideMemberEntry)のIDが、
                     現在処理中の保護者(memberEntry)のIDと一致する場合のみ表示
                 ・th:text="${childEntry.child.name}" - 子供の名前を表示
-              -->
+              
               <div class="car-child" th:each="childEntry : ${rideChildEntries}" 
                   th:if="${childEntry.rideMemberEntry != null && childEntry.rideMemberEntry.id == memberEntry.id}"
                   th:text="${childEntry.child.name}">
-              </div>
-            </div>
-          </div>
-        </div>
+              </div> -->
+            
 
         <div class="mt-3">
-          <label>memo</label>
           <p th:text="${ride.memo}" class="form-control-plaintext"></p>
         </div>
 

@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.haisya_manager.entity.Child;
 import com.example.haisya_manager.entity.Driver;
 import com.example.haisya_manager.entity.Member;
 import com.example.haisya_manager.entity.Ride;
@@ -22,7 +21,6 @@ import com.example.haisya_manager.form.DriverForm;
 import com.example.haisya_manager.form.RideEditForm;
 import com.example.haisya_manager.form.RideMemberEntryForm;
 import com.example.haisya_manager.form.RideRegisterForm;
-import com.example.haisya_manager.repository.ChildRepository;
 import com.example.haisya_manager.repository.DriverRepository;
 import com.example.haisya_manager.repository.MemberRepository;
 import com.example.haisya_manager.repository.RideChildEntryRepository;
@@ -40,7 +38,6 @@ public class RideService {
 	private final RideMemberEntryRepository rideMemberEntryRepository;
 	private final RideChildEntryRepository rideChildEntryRepository;
 	private final RideEntryRepository rideEntryRepository;
-	private final ChildRepository childRepository;
 	private final MemberRepository memberRepository;
 	private final DriverRepository driverRepository;
 	
@@ -82,11 +79,6 @@ public class RideService {
 	// admin_idに紐づく保護者をリストで取得する
 	public List<Member> findMemberIdsByAdminId(Integer adminId) {
 		return memberRepository.findByAdminId(adminId);
-	}
-	
-	// admin_idに紐づく子供をリストで取得する
-	public List<Child> findChildIdsByAdminId(Integer adminId) {
-		return childRepository.findByAdminId(adminId);
 	}
 	
 	// 配車日、行き先、メモを登録する
