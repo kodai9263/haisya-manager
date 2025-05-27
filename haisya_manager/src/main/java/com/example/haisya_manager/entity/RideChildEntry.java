@@ -27,6 +27,10 @@ public class RideChildEntry {
 	private Ride ride;
 	
 	@ManyToOne
+	@JoinColumn(name = "member_id")
+	private Member member;
+	
+	@ManyToOne
 	@JoinColumn(name = "child_id")
 	private Child child;
 	

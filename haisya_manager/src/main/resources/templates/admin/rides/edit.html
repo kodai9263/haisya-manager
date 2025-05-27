@@ -71,23 +71,21 @@
           <div class="mb-3">
             <label>子供</label>
             <div class="row justify-content-between">
-		          <div th:each="entry, iStat : *{rideChildEntries}" class="col-md-2 mb-2">
-                <div th:each="j : ${#numbers.sequence(0,4)}" class="col-md-2 mb-2">
+              <div th:each="i : ${#numbers.sequence(0,4)}" class="col-md-2">
+                <div th:each="j : ${#numbers.sequence(0,4)}" class="mb-2">
                   <select class="form-select"
-                  th:name="|rideChildEntries[${iStat.index}].childIds[${j}]|"
-                  th:id="|rideChildEntries[${iStat.index}].childIds[${j}]|"
-                  th:disabled="${entry.childName == null or entry.childName.isEmpty()}">
-                  <option value=""></option>
-                  <option th:each="child : ${childrenList}"
-                  th:value="${child.id}"
-                  th:text="${child.name}"
-                  th:selected="${entry.childIds != null and entry.childIds.size() > j and entry.childIds[j] == child.id}">
-                </option>
-              </select>
+                    th:name="|rideChildEntries[${i}].childIds[${j}]|"
+                    th:id="|rideChildEntries[${i}].childIds[${j}]|">
+                    <option value=""></option>
+                    <option th:each="child : ${childrenList}"
+                      th:value="${child.id}"
+                      th:text="${child.name}"
+                      th:selected="${rideEditForm.rideChildEntries != null and rideEditForm.rideChildEntries.size() > i and rideEditForm.rideChildEntries[i].childIds != null and rideEditForm.rideChildEntries[i].childIds.size() > j and rideEditForm.rideChildEntries[i].childIds[j] == child.id}">
+                    </option>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
           
           <!-- 行き先 -->
           <div class="mb-3">

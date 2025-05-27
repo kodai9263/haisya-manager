@@ -70,6 +70,7 @@ public class MemberService {
 				Child child = new Child();
 				child.setName(childName);
 				child.setMember(member);
+				child.setAdmin(userDetailsImpl.getAdmin());
 				childRepository.save(child);
 			}
 		}
@@ -102,6 +103,7 @@ public class MemberService {
 				Child child = new Child();
 				child.setName(childName);
 				child.setMember(member);
+				child.setAdmin(userDtailsImpl.getAdmin());
 				childRepository.save(child);
 			}
 		}

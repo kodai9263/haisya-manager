@@ -84,9 +84,11 @@ CREATE TABLE IF NOT EXISTS ride_member_entries (
 CREATE TABLE IF NOT EXISTS ride_child_entries (
    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
    ride_id INT NOT NULL,
+   member_id INT NOT NULL,
    child_id INT NOT NULL,
    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    FOREIGN KEY (ride_id) REFERENCES rides (id),
+   FOREIGN KEY (member_id) REFERENCES members (id),
    FOREIGN KEY (child_id) REFERENCES children (id)
 );

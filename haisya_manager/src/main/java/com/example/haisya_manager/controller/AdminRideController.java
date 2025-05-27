@@ -30,6 +30,7 @@ import com.example.haisya_manager.entity.RideChildEntry;
 import com.example.haisya_manager.entity.RideEntry;
 import com.example.haisya_manager.entity.RideMemberEntry;
 import com.example.haisya_manager.form.DriverForm;
+import com.example.haisya_manager.form.RideChildEntryForm;
 import com.example.haisya_manager.form.RideEditForm;
 import com.example.haisya_manager.form.RideMemberEntryForm;
 import com.example.haisya_manager.form.RideRegisterForm;
@@ -197,17 +198,36 @@ public class AdminRideController {
 	    	rideMemberEntryForms.add(new RideMemberEntryForm());
 	    }
 	    
-	    
+	   // 運転手ごとの子供の情報を作成
+	    List<RideChildEntryForm> rideChildEntryForms = new ArrayList<>();
+	    for (Driver driver : drivers) {
+	    	RideChildEntryForm rideChildEntryForm = new RideChildEntryForm();
+	    	rideChildEntryForm.setDriverName(driver.getMember().getName());
+	    	List<Integer> childIds = new ArrayList<>();
+	    	// この運転手に乗る子供のID
+	    	for (RideChildEntry rideChildEntry : rideChildEntries) {
+	    		if (rideChildEntry.getChild() != null) {
+	    			// 運転手のIDと子供のIDを紐づける
+	    			if (driver.getMember().getId().equals(rideChildEntry.getChild().getMember().getId())) {
+	    				childIds.add(rideChildEntry.getChild().getId());
+	    			}
+	    		}
+	    	}
+	    	rideChildEntryForm.setChildIds(childIds);
+	    	rideChildEntryForms.add(rideChildEntryForm);
+	    }
+	    while (rideChildEntryForms.size() < 5) {
+	    	RideChildEntryForm emptyRideChildEntryForm = new RideChildEntryForm();
+	    	emptyRideChildEntryForm.setChildIds(new ArrayList<>());
+	    	rideChildEntryForms.add(emptyRideChildEntryForm);
+	    }
 	    
 		rideEditForm.setDate(ride.getDate());
 		rideEditForm.setDestination(ride.getDestination());
 		rideEditForm.setMemo(ride.getMemo());
 		rideEditForm.setDrivers(driverForms);
 		rideEditForm.setRideMemberEntries(rideMemberEntryForms);
-		
-		//while (rideEditForm.getRideMemberEntries().size() < 5) {
-			//rideEditForm.getRideMemberEntries().add(new RideMemberEntryForm());
-		//}
+		rideEditForm.setRideChildEntries(rideChildEntryForms);
 		
 		model.addAttribute("ride", ride);
 		model.addAttribute("rideMemberCanEntries", rideMemberCanEntries);
