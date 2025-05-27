@@ -197,6 +197,8 @@ public class AdminRideController {
 	    	rideMemberEntryForms.add(new RideMemberEntryForm());
 	    }
 	    
+	    
+	    
 		rideEditForm.setDate(ride.getDate());
 		rideEditForm.setDestination(ride.getDestination());
 		rideEditForm.setMemo(ride.getMemo());
