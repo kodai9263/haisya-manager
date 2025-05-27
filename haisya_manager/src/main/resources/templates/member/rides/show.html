@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <div th:replace="~{fragment :: meta}"></div>
+  <div th:replace="~{fragment :: styles}"></div>
+  <title>配車詳細</title>
+</head>
+<body>
+  <div class="haisya-wrapper member-rides-show-wrapper">
+    <div th:replace="~{fragment :: header}"></div>
+    <main>
+      <div class="haisya-container member-rides-show-container">
+        <nav class="haisya-nav">
+          <ul>
+            <li class="haisya-nav-item"><a th:href="@{/member/rides}">配車一覧</a></li>
+            <li class="haisya-nav-item active" aria-current="page">配車詳細</li>
+          </ul>
+        </nav>
+        <h1>配車詳細</h1>
+
+        <!-- 日付 -->
+        <div class="mb-3">
+          <label>日付</label>
+          <p th:text="${ride.date}" class="form-control-plaintext"></p>
+        </div>
+
+        <!-- 配車台数分（5台） -->
+        <div class="d-flex flex-wrap justify-content-between">
+          <div th:each="i : ${#numbers.sequence(0, 4)}" class="card p-3 m-2" style="width: 18rem;">
+            <h5 th:text="'配車 ' + (i + 1) + ' 台目'"></h5>
+
+            <!-- 配車号 -->
+            <div class="mb-3">
+              <label>配車号</label>
+              <p th:text="${ride.drivers[i].name}" class="form-control-plaintext"></p>
+            </div>
+
+            <!-- 子供の名前 -->
+            <div class="mb-3">
+              <label>乗車メンバー</label>
+              <ul>
+                <li th:each="child : ${ride.children[i]}" th:text="${child.name}"></li>
+              </ul>
+            </div>
+
+            <!-- 備考欄 -->
+            <div class="mb-3">
+              <label>備考</label>
+              <p th:text="${ride.memos[i]}" class="form-control-plaintext"></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>

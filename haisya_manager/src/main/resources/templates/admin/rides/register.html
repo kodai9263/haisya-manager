@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <div th:replace="~{fragment :: meta}"></div>
+  <div th:replace="~{fragment :: styles}"></div>
+  <title>配車登録</title>
+</head>
+<body>
+  <div class="haisya-wrapper admin-rides-register-wrapper">
+      <div class="haisya-container admin-rides-register-container">
+        <nav class="my-2 pb-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a th:href="@{/admin/top}">TOP</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/admin/rides}">配車一覧</a></li>
+            <li class="breadcrumb-item active" aria-current="page">配車登録</li>
+          </ol>
+        </nav>
+        <h1>配車登録</h1>
+
+        <form th:action="@{/admin/rides/create}" th:object="${rideRegisterForm}" method="post">
+          <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+
+          <!-- 日付 -->
+          <div class="mb-3">
+            <label for="date">日付</label>
+            <div th:if="${#fields.hasErrors('date')}" class="text-danger small mb-2" th:errors="*{date}"></div>
+            <input type="date" class="form-control" th:field="*{date}" id="date" />
+          </div>
+
+          <!-- 行き先 -->
+          <div class="mb-3">
+            <label for="destination">行き先</label>
+            <div th:if="${#fields.hasErrors('destination')}" class="text-danger small mb-2" th:errors="*{destination}"></div>
+            <input type="text" class="form-control" th:field="*{destination}" id="destination" />
+          </div>
+
+          <!-- memo -->
+          <div class="mb-3">
+            <label for="memo">memo</label>
+            <div th:if="${#fields.hasErrors('memo')}" class="text-danger small mb-2" th:errors="*{memo}"></div>
+            <input type="text" class="form-control" th:field="*{memo}" id="memo" />
+          </div>
+
+          <!-- 登録ボタン -->
+          <div class="text-center mt-4">
+            <button type="submit" class="btn haisya-btn">登録</button>
+          </div>
+        </form>
+
+      </div>
+  </div>
+
+  <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>

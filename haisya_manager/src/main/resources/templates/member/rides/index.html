@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>配車一覧</title>
+</head>
+<body>
+    <div class="haisya-wrapper member-rides-index-wrapper">
+      <div th:replace="~{fragment :: header}"></div>
+      <main>
+        <div class="haisya-container member-rides-index-container">
+          <nav class="haisya-nav">
+            <ul>
+              <li class="haisya-nav-item active" aria-current="page">配車一覧</li>
+            </ul>
+          </nav>
+          
+          <h1>配車一覧</h1>
+
+          <table class="haisya-table" >
+            <thead>
+              <tr><th>日付</th></tr>
+            </thead>
+            <tbody>
+              <tr th:each="ride : ${ridePage}">
+                <td>
+                  <a th:href="@{/rides/__${ride.id}__}" th:text="${ride.date}"></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- ページネーション -->
+          <div th:if="${ridePage.getTotalPages() > 1}" class="d-flex justify-content-center">
+            <nav aria-label="配車一覧ページ">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <span th:if="${ridePage.isFirst()}" class="page-link disabled">‹</span>
+                        <a th:unless="${ridePage.isFirst()}" th:href="@{/rides(page = ${ridePage.getNumber() - 1})}" class="page-link nagoyameshi-page-link">‹</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(0, ridePage.getTotalPages() - 1)}" class="page-item">
+                        <span th:if="${i == ridePage.getNumber()}" class="page-link active nagoyameshi-active" th:text="${i + 1}"></span>
+                        <a th:unless="${i == ridePage.getNumber()}" th:href="@{/rides(page = ${i})}" class="page-link nagoyameshi-page-link" th:text="${i + 1}"></a>
+                    </li>
+                    <li class="page-item">
+                        <span th:if="${ridePage.isLast()}" class="page-link disabled">›</span>
+                        <a th:unless="${ridePage.isLast()}" th:href="@{/rides(page = ${ridePage.getNumber() + 1})}" class="page-link nagoyameshi-page-link">›</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        </div>
+      </main>
+    </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>

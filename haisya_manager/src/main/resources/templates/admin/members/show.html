@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>メンバー詳細</title>
+</head>
+<body>
+    <div class="haisya-wrapper admin-members-show-wrapper">
+        <div th:replace="~{fragment :: header}"></div>
+        <div class="haisya-container admin-members-show-container">
+            <nav class="my-2 pb-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/top}">TOP</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/admin/members}">メンバー一覧</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">メンバー詳細</li>
+                </ol>
+            </nav>
+            <h1>メンバー詳細</h1>
+
+                <!-- 名前 -->
+                <div class="row pb-2 mb-2 border-bottom">
+                    <div class="col-4">
+                        <span class="fw-bold">保護者名</span>
+                    </div>
+                    <div class="col">
+                        <span th:text="${member.name}" class="form-control-plaintext"></span>
+                    </div>
+                </div>
+
+                <!-- 子供の名前 -->
+                <div class="row pb-2 mb-2 border-bottom">
+                    <div class="col-4">
+                        <span class="fw-bold">子供名</span>
+                    </div>
+                    <div class="col">
+                        <span th:each="child : ${childList}" th:text="${child.name}" class="form-control-plaintext"></span>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+    <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>

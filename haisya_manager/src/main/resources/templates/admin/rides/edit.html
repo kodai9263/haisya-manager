@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <div th:replace="~{fragment :: meta}"></div>
+  <div th:replace="~{fragment :: styles}"></div>
+  <title>配車編集</title>
+</head>
+<body>
+  <div class="haisya-wrapper admin-rides-edit-wrapper">
+    <main>
+      <div class="haisya-container admin-rides-edit-container">
+        <nav class="my-2 pb-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a th:href="@{/admin/top}">TOP</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/admin/rides}">配車一覧</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/admin/rides/__${ride.id}__}">配車詳細</a></li>
+            <li class="breadcrumb-item active" aria-current="page">配車編集</li>
+          </ol>
+        </nav>
+        <h1>配車編集</h1>
+
+        <form th:action="@{/admin/rides/{id}/update(id=${ride.id})}" th:object="${rideEditForm}" method="post">
+          <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+          <!-- TODO 登録している日付を表示する方法 -->
+          <div class="mb-3">
+            <label for="date">日付</label>
+            <div th:if="${#fields.hasErrors('date')}" class="text-danger small mb-2" th:errors="*{date}"></div>
+            <div class="row justify-content-center">
+              <div class="col-md-4">
+                <input type="text" class="form-control" th:field="*{date}" th:value="${ride.date}" id="date" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 運転手 -->
+          <div class="mb-3">
+            <label>運転手</label>
+            <div class="row justify-content-between">
+              <div th:each="entry, iStat : *{drivers}" class="col-md-2 mb-2">
+                <select th:field="*{drivers[__${iStat.index}__].memberName}" class="form-select">
+                  <option value=""></option>
+                  <option th:each="driver : ${rideMemberCanEntries}"
+                          th:value="${driver.member.name}"
+                          th:text="${driver.member.name + '号'}"
+                          th:selected="${driver.member.name == entry.memberName}">
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 同乗する保護者 -->
+          <div class="mb-3"> 
+            <label>保護者</label>
+            <div class="row justify-content-between">
+              <div th:each="entry, iStat : *{rideMemberEntries}" class="col-md-2 mb-2">
+                <select th:field="*{rideMemberEntries[__${iStat.index}__].memberName}" class="form-select">
+                  <option value=""></option>
+                  <option th:each="member : ${memberList}"
+                          th:value="${member.name}"
+                          th:text="${member.name}"
+                          th:selected="${member.name == entry.memberName}">
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 子供 
+          <div class="mb-3">
+            <label>子供</label>
+            <div class="row justify-content-between">
+              <div th:each="entry, iStat : *{rideMemberEntries}" 
+                  class="col-md-2 mb-2">
+                  <div th:each="j : ${#numbers.sequence(0,4)}" class="col-md-2 mb-2">
+                    <select class="form-select"
+                            th:name="|rideMemberEntries[${iStat.index}].childIds[${j}]|"
+                            th:id="|rideMemberEntries[${iStat.index}].childIds[${j}]|"
+                            th:disabled="${entry.memberName == null or entry.memberName.isEmpty()}">
+                      <option value=""></option>
+                      <option th:each="child : ${childrenList}"
+                              th:value="${child.id}"
+                              th:text="${child.name}"
+                              th:selected="${entry.childIds != null and entry.childIds.size() > j and entry.childIds[j] == child.id}">
+                      </option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+          </div> -->
+          
+          <!-- 行き先 -->
+          <div class="mb-3">
+            <label for="destination">行き先</label>
+            <div th:if="${#fields.hasErrors('destination')}" class="text-danger small mb-2" th:errors="*{destination}"></div>
+            <div class="row justify-content-center">
+              <div class="col-md-4">
+                <input type="text" class="form-control" th:field="*{destination}" id="destination" />
+              </div>
+            </div>
+          </div>
+
+          <!-- memo -->
+          <div class="mb-3">
+            <label for="memo">memo</label>
+            <div th:if="${#fields.hasErrors('memo')}" class="text-danger small mb-2" th:errors="*{memo}"></div>
+            <div class="row justify-content-center">
+              <div class="col-md-4">
+                <input type="text" class="form-control" th:field="*{memo}" id="memo" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 更新ボタン -->
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">更新</button>
+          </div>
+        </form>
+
+      </div>
+    </main>
+  </div>
+
+  <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>配車エントリー</title>
+</head>
+<body>
+    <div class="haisya-wrapper member-rides-entry-wrapper">
+        <div th:replace="~{fragment :: header}"></div>
+        <div class="haisya-container member-rides-entry-container">
+            <h2 th:text="${ride.date} + ' の配車予定'"></h2>
+            <p th:text="'行き先: ' + ${ride.destination}"></p>
+
+            <form th:action="@{/member/rides/entry/__${ride.id}}" method="post">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                <label><input type="radio" name="canDrive" value="true" required>配車可能</label><br>
+                <label><input type="radio" name="canDrive" value="false">配車不可能</label><br>
+
+                <button type="submit">送信</button>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>

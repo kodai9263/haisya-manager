@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>トップページ</title>
+</head>
+<body>
+    <div class="haisya-wrapper admin-top-wrapper">
+        <div th:replace="~{fragment :: header}"></div>
+            <div class="haisya-container admin-top-container">
+                <h1>トップ</h1>
+
+                    <ul>
+                        <li><a th:href="@{/admin/rides}">配車一覧</a></li>
+                        <li><a th:href="@{/admin/rides/register}">配車登録</a></li>
+                        <li><a th:href="@{/admin/members}">メンバー一覧</a></li>
+                        <li><a th:href="@{/admin/members/register}">メンバー登録</a></li>
+                    </ul>
+
+                <div th:if="${param.loggedIn}" class="alert alert-info py-2">
+                    ログインしました。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>

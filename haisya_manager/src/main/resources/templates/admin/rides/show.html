@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <div th:replace="~{fragment :: meta}"></div>
+  <div th:replace="~{fragment :: styles}"></div>
+  <title>配車詳細</title>
+
+</head>
+<body>
+  <div class="haisya-wrapper admin-rides-show-wrapper">
+    <main>
+      <div class="haisya-container admin-rides-show-container">
+        <nav class="my-2 pb-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a th:href="@{/admin/top}">TOP</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/admin/rides}">配車一覧</a></li>
+            <li class="breadcrumb-item active" aria-current="page">配車詳細</li>
+          </ol>
+        </nav>
+        <h1>配車詳細</h1>
+
+        <div class="mb-3">
+          <p th:text="${ride.date}" class="form-control-plaintext"></p>
+        </div>
+        
+        <div class="mb-3">
+          <p th:text="${ride.destination}" class="form-control-plaintext"></p>
+        </div>
+
+        <div class="cars-container">
+          <div class="car-card" th:each="driver : ${drivers}">
+            <div class="car-header mb-3" th:text="${driver.getMember().getName() + '号'}"></div>
+          </div>
+        </div> 
+
+        <div class="cars-container">
+          <div class="car-card" th:each="rideMemberEntry : ${rideMemberEntries}">
+            <div class="car-header mb-3" th:text="${rideMemberEntry.getMember().getName() + 'さん'}"></div>
+          </div>
+        </div> 
+
+              
+              <!-- 
+                各保護者に対応する子供を表示
+                ・th:each="childEntry : ${rideChildEntries}" - 全ての子供エントリーをループ
+                ・th:if="${childEntry.rideMemberEntry != null..." - 子供と保護者の関連をチェック
+                  → 子供(childEntry)に関連付けられた保護者(rideMemberEntry)のIDが、
+                    現在処理中の保護者(memberEntry)のIDと一致する場合のみ表示
+                ・th:text="${childEntry.child.name}" - 子供の名前を表示
+              
+              <div class="car-child" th:each="childEntry : ${rideChildEntries}" 
+                  th:if="${childEntry.rideMemberEntry != null && childEntry.rideMemberEntry.id == memberEntry.id}"
+                  th:text="${childEntry.child.name}">
+              </div> -->
+            
+
+        <div class="mt-3">
+          <p th:text="${ride.memo}" class="form-control-plaintext"></p>
+        </div>
+
+        <div th:if="${successMessage}" class="alert alert-info py-2">
+          <span th:text="${successMessage}"></span>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>
