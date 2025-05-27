@@ -34,6 +34,10 @@ public class Child {
 	@ManyToOne
 	@JoinColumn(name = "member_id")
 	private Member member;
+	
+	@ManyToOne
+	@JoinColumn(name = "admin_id")
+	private Admin admin;
 	 
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;

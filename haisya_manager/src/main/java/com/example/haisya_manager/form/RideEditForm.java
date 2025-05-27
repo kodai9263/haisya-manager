@@ -25,4 +25,6 @@ public class RideEditForm {
 	private List<DriverForm> drivers;
 	
 	private List<RideMemberEntryForm> rideMemberEntries;
+	
+	private List<RideChildEntryForm> rideChildEntries;
 }

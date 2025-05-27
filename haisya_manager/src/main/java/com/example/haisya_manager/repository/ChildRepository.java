@@ -10,5 +10,8 @@ public interface ChildRepository extends JpaRepository<Child, Integer> {
 	
 	// member_idに紐づく子供をリストで取得する
 	public List<Child> findByMemberId(Integer memberId);
+	
+	// admin_idに紐づく子供をリストで取得する
+	public List<Child> findByAdminId(Integer adminId);
 
 }

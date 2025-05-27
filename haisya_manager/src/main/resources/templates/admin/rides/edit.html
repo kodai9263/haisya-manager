@@ -67,28 +67,27 @@
             </div>
           </div>
 
-          <!-- 子供 
+          <!-- 子供 -->
           <div class="mb-3">
             <label>子供</label>
             <div class="row justify-content-between">
-              <div th:each="entry, iStat : *{rideMemberEntries}" 
-                  class="col-md-2 mb-2">
-                  <div th:each="j : ${#numbers.sequence(0,4)}" class="col-md-2 mb-2">
-                    <select class="form-select"
-                            th:name="|rideMemberEntries[${iStat.index}].childIds[${j}]|"
-                            th:id="|rideMemberEntries[${iStat.index}].childIds[${j}]|"
-                            th:disabled="${entry.memberName == null or entry.memberName.isEmpty()}">
-                      <option value=""></option>
-                      <option th:each="child : ${childrenList}"
-                              th:value="${child.id}"
-                              th:text="${child.name}"
-                              th:selected="${entry.childIds != null and entry.childIds.size() > j and entry.childIds[j] == child.id}">
-                      </option>
-                    </select>
-                  </div>
-              </div>
+		          <div th:each="entry, iStat : *{rideChildEntries}" class="col-md-2 mb-2">
+                <div th:each="j : ${#numbers.sequence(0,4)}" class="col-md-2 mb-2">
+                  <select class="form-select"
+                  th:name="|rideChildEntries[${iStat.index}].childIds[${j}]|"
+                  th:id="|rideChildEntries[${iStat.index}].childIds[${j}]|"
+                  th:disabled="${entry.childName == null or entry.childName.isEmpty()}">
+                  <option value=""></option>
+                  <option th:each="child : ${childrenList}"
+                  th:value="${child.id}"
+                  th:text="${child.name}"
+                  th:selected="${entry.childIds != null and entry.childIds.size() > j and entry.childIds[j] == child.id}">
+                </option>
+              </select>
             </div>
-          </div> -->
+          </div>
+        </div>
+      </div>
           
           <!-- 行き先 -->
           <div class="mb-3">

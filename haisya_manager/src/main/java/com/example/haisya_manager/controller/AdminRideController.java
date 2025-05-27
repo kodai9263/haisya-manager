@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.haisya_manager.entity.Child;
 import com.example.haisya_manager.entity.Driver;
 import com.example.haisya_manager.entity.Member;
 import com.example.haisya_manager.entity.Ride;
@@ -160,7 +161,7 @@ public class AdminRideController {
 		List<RideMemberEntry> rideMemberEntries = rideService.findMemberIdsByRideId(rideId);
 		
 		// 実際に配車される車に乗る子供の名前をリストとして受け取り、ビューに渡す
-		//List<RideChildEntry> rideChildEntries = rideService.findChildIdsByRideId(rideId);
+		List<RideChildEntry> rideChildEntries = rideService.findChildIdsByRideId(rideId);
 		
 		Integer adminId = userDetailsImpl.getAdmin().getId();
 		
@@ -168,7 +169,7 @@ public class AdminRideController {
 		List<Member> memberList = rideService.findMemberIdsByAdminId(adminId);
 		
 		// admin_idに紐づく子供をリストで取得する
-		//List<Child> childrenList = rideService.findChildIdsByAdminId(adminId);
+		List<Child> childrenList = rideService.findChildIdsByAdminId(adminId);
 		
 		Ride ride = optionalRide.get();
 		
@@ -209,8 +210,8 @@ public class AdminRideController {
 		model.addAttribute("ride", ride);
 		model.addAttribute("rideMemberCanEntries", rideMemberCanEntries);
 		model.addAttribute("memberList", memberList);
-		//model.addAttribute("rideChildEntries", rideChildEntries);
-		//model.addAttribute("childrenList", childrenList);
+		model.addAttribute("rideChildEntries", rideChildEntries);
+		model.addAttribute("childrenList", childrenList);
 		model.addAttribute("rideEditForm", rideEditForm);
 		
 		return "admin/rides/edit";
