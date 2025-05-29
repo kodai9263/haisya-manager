@@ -19,6 +19,7 @@ import com.example.haisya_manager.entity.RideChildEntry;
 import com.example.haisya_manager.entity.RideEntry;
 import com.example.haisya_manager.entity.RideMemberEntry;
 import com.example.haisya_manager.form.DriverForm;
+import com.example.haisya_manager.form.RideChildEntryForm;
 import com.example.haisya_manager.form.RideEditForm;
 import com.example.haisya_manager.form.RideMemberEntryForm;
 import com.example.haisya_manager.form.RideRegisterForm;
@@ -137,7 +138,7 @@ public class RideService {
 		}
 	}
 	
-	// 配車号（運転手）を登録する
+	// 保護者を登録する
 		@Transactional
 		public void createRideMemberEntry(RideEditForm rideEditForm, Ride ride) {
 			rideMemberEntryRepository.deleteByRide(ride);
@@ -160,78 +161,36 @@ public class RideService {
 			}
 		}
 		
-	/* 配車される車に乗車する保護者を登録する
+	// 配車される車に乗車する保護者を登録する
 	@Transactional
-	public void createRideChild(RideEditForm rideEditForm, Ride ride) {
+	public void createRideChildEntry(RideEditForm rideEditForm, Ride ride) {
+		rideChildEntryRepository.deleteByRide(ride);
+		rideChildEntryRepository.flush();
 		// RideChildFormで入力された子供の数だけのループさせる
-		for (RideChildEntryForm rideChildForm : rideEditForm.getChildEntries()) {
-			// 配車に指定された保護者を取得する
-			RideMemberEntry rideMemberEntry = rideMemberEntryRepository.findById(rideChildForm.getRideMemberEntryId()).orElseThrow(() -> new RuntimeException("Entry not found"));
+		for (RideChildEntryForm rideChildEntryForm : rideEditForm.getRideChildEntries()) {
+			// 空欄ならスキップ
+			if (rideChildEntryForm.getChildIds().isEmpty() || rideChildEntryForm.getDriverName() == null) {
+				continue;
+			}
+			// 配車に指定された運転手を取得する
+			Member member = memberRepository.findByName(rideChildEntryForm.getDriverName());
+			if (member == null) {
+				continue;
+			}
 			// 配車に指定された人に乗車する子供をループで取得する
-			for (Integer childId : rideChildForm.getChildIds()) {
+			for (Integer childId : rideChildEntryForm.getChildIds()) {
+				if (childId == null) continue;
 				RideChildEntry rideChildEntry = new RideChildEntry();
 				rideChildEntry.setRide(ride);
-				rideChildEntry.setRideMemberEntry(rideMemberEntry);
+				rideChildEntry.setMember(member);
 				Child child = childRepository.findById(childId).orElseThrow(() -> new RuntimeException("Child not found"));
 				rideChildEntry.setChild(child);
 				rideChildEntryRepository.save(rideChildEntry);
 				
 			}
 		}
-	}*/
-	
-	/* 配車号、乗車する子供を一掃してから編集登録する
-	@Transactional
-	public void updateAllRide(RideEditForm rideEditForm, Ride ride) {
-		ride.setDate(rideEditForm.getDate());
-		ride.setDestination(rideEditForm.getDestination());
-		ride.setMemo(rideEditForm.getMemo());
-		rideRepository.save(ride);
 		
-		Integer rideId = ride.getId();
-		if (rideId == null) {
-			throw new IllegalArgumentException("Ride ID cannot be null");
-		}
-		
-		// 既存の子エントリ→メンバーエントリの順で一掃
-		rideChildEntryRepository.deleteByRideId(ride.getId());
-		// rideChildEntryRepository.flush();
-		rideMemberEntryRepository.deleteByRideId(ride.getId()); 
-		// rideMemberEntryRepository.flush();
-		
-		// 新しいエントリの作成
-		List<RideMemberEntry> newMemberEntries = new ArrayList<>();
-		
-		for (DriverForm entryForm : rideEditForm.getRideMemberEntries()) {
-			if (entryForm.getMemberName() == null || entryForm.getMemberName().isBlank()) continue;
-			
-			Member member = memberRepository.findByName(entryForm.getMemberName());
-			if (member == null) {
-				member = new Member();
-				member.setName(entryForm.getMemberName());
-				memberRepository.save(member);
-			}
-			
-			RideMemberEntry rideMemberEntry = new RideMemberEntry();
-			rideMemberEntry.setRide(ride);
-			rideMemberEntry.setMember(member);
-			rideMemberEntryRepository.save(rideMemberEntry);
-			
-			for (Integer childId : entryForm.getChildIds()) {
-				childRepository.findById(childId).ifPresent(child -> {
-					
-					System.out.println(childId + "はあります。");
-					
-					RideChildEntry rideChildEntry = new RideChildEntry();
-					rideChildEntry.setRide(ride);
-					rideChildEntry.setRideMemberEntry(rideMemberEntry);
-					rideChildEntry.setChild(child);
-					rideChildEntryRepository.save(rideChildEntry);
-				});
-			}
-			newMemberEntries.add(rideMemberEntry);
-		}
-	}*/
+	}
 	
 	// 配車を削除する
 	@Transactional

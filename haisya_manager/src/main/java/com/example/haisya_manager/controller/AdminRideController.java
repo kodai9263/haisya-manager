@@ -261,8 +261,17 @@ public class AdminRideController {
 			model.addAttribute("rideEditForm", rideEditForm);
 			return "admin/rides/edit";
 		}
+		
+		List<DriverForm> drivers = rideEditForm.getDrivers();
+		List<RideChildEntryForm> rideChildEntries = rideEditForm.getRideChildEntries();
+		for (int i = 0; i < rideChildEntries.size(); i++) {
+			String driverName = (drivers.size() > i) ? drivers.get(i).getMemberName() : null;
+			rideChildEntries.get(i).setDriverName(driverName);
+		}
+		
 		rideService.createDriver(rideEditForm, ride);
 		rideService.createRideMemberEntry(rideEditForm, ride);
+		rideService.createRideChildEntry(rideEditForm, ride);
 		redirectAttributes.addFlashAttribute("successMessage", "配車予定を編集しました。");
 		return "redirect:/admin/rides/{rideId}";
 	}

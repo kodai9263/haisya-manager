@@ -56,7 +56,7 @@ INSERT IGNORE INTO children (id, name, member_id, admin_id) VALUES
 (23, '浜中 すぐる', 16, 2),
 (24, '小久保 しん', 17, 2),
 (25, '松井 ひでき', 18, 2),
-(26, '松井 だいき', 7, 2);
+(26, '松井 だいき', 18, 2);
 
 /* rides テーブル */
 INSERT IGNORE INTO rides (id, date, destination, memo, admin_id) VALUES
@@ -93,7 +93,7 @@ INSERT IGNORE INTO ride_entries (id, ride_id, member_id, can_drive) VALUES
 (25, 3, 14, true),
 (26, 3, 15, true),
 (27, 3, 16, false),
-(28, 3, 17, false),
+(28, 3, 17, true),
 (29, 3, 18, true);
 
 /* drivers　（配車に指定された運転手の保護者を保存する） テーブル */
@@ -102,7 +102,7 @@ INSERT IGNORE INTO drivers (id, ride_id, member_id) VALUES
 (2, 1, 3),
 (3, 1, 8),
 (4, 1, 9),
-(5, 3, 11),
+(5, 3, 13),
 (6, 3, 12),
 (7, 3, 14),
 (8, 3, 15),
@@ -112,7 +112,7 @@ INSERT IGNORE INTO drivers (id, ride_id, member_id) VALUES
 INSERT IGNORE INTO ride_member_entries (id, ride_id, member_id) VALUES
 (1, 1, 5),
 (2, 1, 7),
-(3, 3, 13);
+(3, 3, 17);
 
 /* ride_child_entries　（配車に指定された人が乗せる子供を保存する） テーブル */
 INSERT IGNORE INTO ride_child_entries (id, ride_id, member_id, child_id) VALUES
@@ -132,8 +132,8 @@ INSERT IGNORE INTO ride_child_entries (id, ride_id, member_id, child_id) VALUES
 (14, 1, 9, 14),
 (15, 1, 9, 15),
 (16, 1, 9, 16),
-(17, 3, 11, 17),
-(18, 3, 11, 18),
+(17, 3, 13, 17),
+(18, 3, 13, 18),
 (19, 3, 12, 19),
 (20, 3, 12, 20),
 (21, 3, 15, 21),
@@ -141,4 +141,4 @@ INSERT IGNORE INTO ride_child_entries (id, ride_id, member_id, child_id) VALUES
 (23, 3, 14, 23),
 (24, 3, 14, 24),
 (25, 3, 18, 25),
-(20, 3, 18, 26);
+(26, 3, 18, 26);
