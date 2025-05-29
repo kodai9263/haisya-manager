@@ -206,9 +206,9 @@ public class AdminRideController {
 	    	List<Integer> childIds = new ArrayList<>();
 	    	// この運転手に乗る子供のID
 	    	for (RideChildEntry rideChildEntry : rideChildEntries) {
-	    		if (rideChildEntry.getChild() != null) {
+	    		if (rideChildEntry.getChild() != null && rideChildEntry.getMember() != null) {
 	    			// 運転手のIDと子供のIDを紐づける
-	    			if (driver.getMember().getId().equals(rideChildEntry.getChild().getMember().getId())) {
+	    			if (rideChildEntry.getMember().getId().equals(driver.getMember().getId())) {
 	    				childIds.add(rideChildEntry.getChild().getId());
 	    			}
 	    		}
