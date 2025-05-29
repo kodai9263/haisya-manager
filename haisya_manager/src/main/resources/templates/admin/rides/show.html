@@ -38,21 +38,18 @@
             <div class="car-header mb-3" th:text="${rideMemberEntry.getMember().getName() + 'さん'}"></div>
           </div>
         </div> 
+        
+              <div class="cars-container">
+                <div th:each="driver : ${drivers}">
 
-              
-              <!-- 
-                各保護者に対応する子供を表示
-                ・th:each="childEntry : ${rideChildEntries}" - 全ての子供エントリーをループ
-                ・th:if="${childEntry.rideMemberEntry != null..." - 子供と保護者の関連をチェック
-                  → 子供(childEntry)に関連付けられた保護者(rideMemberEntry)のIDが、
-                    現在処理中の保護者(memberEntry)のIDと一致する場合のみ表示
-                ・th:text="${childEntry.child.name}" - 子供の名前を表示
-              
-              <div class="car-child" th:each="childEntry : ${rideChildEntries}" 
-                  th:if="${childEntry.rideMemberEntry != null && childEntry.rideMemberEntry.id == memberEntry.id}"
-                  th:text="${childEntry.child.name}">
-              </div> -->
-            
+                  <div class="car-card" th:each="rideChildEntry : ${rideChildEntries}">
+                    <div class="car-header mb-3"
+                          th:if="${rideChildEntry.getMember() != null && rideChildEntry.getMember() == driver.getMember()}"
+                          th:text="${rideChildEntry.getChild().getName()}"
+                          ></div>
+                  </div>
+                </div>
+              </div>
 
         <div class="mt-3">
           <p th:text="${ride.memo}" class="form-control-plaintext"></p>
